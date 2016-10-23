@@ -1,0 +1,32 @@
+<!doctype html>
+<html>
+    <head>
+        <script src="js/angular.js"></script>
+        <script>
+            let app = angular.module("myApp", []);
+            app.controller("BlobController", function($scope, $http) {
+              // See note 1
+              $scope.fetch = function() {
+                delete $http.defaults.headers.common['X-Requested-With']; // See note 2
+                $http.get("images/cat.jpg", {responseType: "arraybuffer"}).
+                    then(function(response) {
+                        // Obtain a blob: URL for the image data.
+                        //console.log(response.data);
+                        arrayBufferView = new Uint8Array( response.data );
+                        //console.log(arrayBufferView);
+                        var blob = new Blob( [ arrayBufferView ], { type: "image/jpeg" } );
+                        var urlCreator = window.URL || window.webkitURL;
+                        var imageUrl = urlCreator.createObjectURL(blob);
+                        document.querySelector( "#img-holder" ).src = imageUrl;
+                    });
+              };
+            });
+        </script>
+    </head>
+    <body ng-app="myApp">
+        <div ng-controller="BlobController">
+            <button ng-click="fetch()">Load image</button>
+            <img id="img-holder">
+        </div>
+    </body>
+</html>
