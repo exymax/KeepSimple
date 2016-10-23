@@ -150,7 +150,7 @@ body {
 }
 
 #layout-wrapper {
-    position:absolute;
+    position:relative;
     width:calc(100% - 60px);
     height:100%;
     padding:30px;

@@ -1,15 +1,37 @@
-app.controller("notesController", function($scope, $mdDialog, dataService, noteService) {
+app.controller("notesController", function($scope, $mdDialog, $timeout, dataService, noteService) {
 
     $scope.notes = dataService.getData();
     $scope.numeration = $scope.notes.length;
     $scope.numeration++;
     $scope.currentInProgress = "";
     $scope.wrapper = document.getElementById("layout-wrapper");
+    $scope.wrapperJQ = $("#layout-wrapper"),
     $scope.notesMasonry = null;
     $scope.creatorIsActive = false;
     $scope.edit = noteService.getNoteModel();
     $scope.inProgress = noteService.getNoteModel();
     $scope.uploadedImages = [];
+    $scope.wrapperJQ.masonry({
+        itemSelector: '.masonry-brick', 
+        percentPosition: true, 
+        gutter: 15,
+    }).sortable({
+
+        start: function(event, ui) {            
+            console.log(ui); 
+            ui.item.removeClass('masonry-brick');
+            ui.item.parent().masonry('reloadItems').masonry();
+        },
+
+        change:function(event, ui) {
+            ui.item.parent().masonry('reloadItems').masonry();
+        },
+
+        stop: function(event, ui) { 
+            ui.item.addClass('masonry-brick');
+            ui.item.parent().masonry('reloadItems').masonry();
+        }
+    });
     /*$scope.$watch('uploadedImages', function(newValue, oldValue, scope) {
         scope.uploadedImages = oldValue.concat(newValue);
         if(scope.uploadedImages.length>4)
@@ -44,6 +66,7 @@ app.controller("notesController", function($scope, $mdDialog, dataService, noteS
             $scope.inProgress.name = "";
             $scope.inProgress.content = "";
             $scope.numeration++;
+            reloadMasonry();
     }
     $scope.showInfo = function(note, ev) {
         $mdDialog.show({
@@ -74,6 +97,12 @@ app.controller("notesController", function($scope, $mdDialog, dataService, noteS
         $scope.answer = function(answer) {
             $mdDialog.hide(answer);
         };
+    }
+
+    function reloadMasonry() {
+        return $timeout(function() {
+            $("#layout-wrapper").masonry('reloadItems').masonry();
+        });
     }
 
 });

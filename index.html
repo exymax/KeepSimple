@@ -70,8 +70,8 @@
                   </div>
             </md-toolbar>
 
-            <div id="layout-wrapper" reload-on-resize masonry="{ transitionDuration: '0.4s', percentPosition: true, gutter: 15 }">
-                <div class="masonry-brick md-whiteframe-2dp note rounded transition" ng-repeat="note in notes" ng-click="showInfo(note, $event)" prepend="true">
+            <div id="layout-wrapper">
+                <div class="ui-state-default masonry-brick md-whiteframe-2dp note rounded" ng-repeat="note in notes" ng-click="showInfo(note, $event)" prepend="true">
                     <h3 ng-bind="note.name"></h3>
                     <p ng-bind="note.content"></p>
                 </div>
@@ -79,9 +79,11 @@
 
         </div>
 
-
+        <script src="js/angular.js"></script>
         <script src="js/components/jquery.js"></script>
-        <script src="js/components/jquery.bridget.js"></script>
+        <script src="js/masonry.pkgd.min.js"></script>
+        <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+        <!--<script src="js/components/jquery.bridget.js"></script>
         <script src="js/components/get-style-property.js"></script>
         <script src="js/components/get-size.js"></script>
         <script src="js/components/EventEmitter.js"></script>
@@ -91,9 +93,8 @@
         <script src="js/components/item.js"></script>
         <script src="js/components/outlayer.js"></script>
         <script src="js/components/masonry.js"></script>
-        <script src="js/components/imagesloaded.js"></script>
-        <script src="js/angular.js"></script>
-        <script src="js/angular-masonry.js"></script>
+        <script src="js/components/imagesloaded.js"></script>-->
+       <!-- <script src="js/angular-masonry.js"></script>-->
         <script src="js/angular-material/angular-animate.min.js"></script>
         <script src="js/angular-material/angular-aria.min.js"></script>
         <script src="js/angular-material/angular-messages.min.js"></script>
