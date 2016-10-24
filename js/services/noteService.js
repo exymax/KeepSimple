@@ -32,6 +32,13 @@ app.service("noteService", function(dataService) {
         }
     }
 
+    this.getImageNoteModel = function() {
+        return {
+            isImage: true,
+            url: ""
+        }
+    }
+
     this.saveToStorage = function(note) {
 
     }

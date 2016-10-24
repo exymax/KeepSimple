@@ -11,6 +11,18 @@ app.controller("notesController", function($scope, $mdDialog, $timeout, dataServ
     $scope.edit = noteService.getNoteModel();
     $scope.inProgress = noteService.getNoteModel();
     $scope.uploadedImages = [];
+    //$scope.interface = null;
+
+    $scope.$on('$dropletReady', function() {
+        $scope.interface.allowedExtensions(['png', 'jpg', 'bmp', 'gif']);
+    });
+
+    $scope.$on('$dropletFileAdded', function() {
+        alert("image added1");
+        //$scope.notes.push({});
+        reloadMasonry();
+    })
+
     $scope.wrapperJQ.masonry({
         itemSelector: '.masonry-brick', 
         percentPosition: true, 
@@ -58,6 +70,8 @@ app.controller("notesController", function($scope, $mdDialog, $timeout, dataServ
             }
             else {
                 $scope.notes.unshift({
+                    "isImage": 0,
+                    "url": null,
                     "name": $scope.inProgress.name,
                     "content": $scope.inProgress.content
                 });

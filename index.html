@@ -38,7 +38,7 @@
                               <span>KeepSimple</span>
                         </h2>
                         <div id="create-note-wrapper">
-                            <input placeholder="Добавить заметку" type="text" id="create-toggler" class="rounded transition md-whiteframe-2dp" ng-focus="toggleCreator()">
+                            <div type="text" id="create-toggler" class="rounded transition md-whiteframe-2dp" ng-click="toggleCreator()">Добавить текстовую заметку</div>
                             <div class="md-whiteframe-4dp rounded transition" ng-class="{'show':creatorIsActive}" id="note-creator">
                                 <form id="" ng-submit="addNewNote(); toggleCreator()">
                                     <md-input-container class="md-block">
@@ -71,18 +71,22 @@
             </md-toolbar>
 
             <div id="layout-wrapper">
+                <droplet id="images-drop-zone" ng-model="interface"></droplet>
                 <div class="ui-state-default masonry-brick md-whiteframe-2dp note rounded" ng-repeat="note in notes" ng-click="showInfo(note, $event)" prepend="true">
                     <h3 ng-bind="note.name"></h3>
                     <p ng-bind="note.content"></p>
                 </div>
+                <div class="ui-state-default masonry-brick md-whiteframe-2dp note note-image rounded" ng-repeat="model in interface.getFiles(interface.FILE_TYPES.VALID)">
+                    <droplet-preview ng-model="model" ng-show="model.isImage()"></droplet-preview>
+                    <section class="filename" ng-show="!model.isImage()">{{model.file.name}}</section>
+                </div>
             </div>
 
         </div>
-
-        <script src="js/angular.js"></script>
         <script src="js/components/jquery.js"></script>
-        <script src="js/masonry.pkgd.min.js"></script>
         <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+        <script src="js/masonry.pkgd.min.js"></script>
+        <script src="js/angular.js"></script>
         <!--<script src="js/components/jquery.bridget.js"></script>
         <script src="js/components/get-style-property.js"></script>
         <script src="js/components/get-size.js"></script>
@@ -100,6 +104,7 @@
         <script src="js/angular-material/angular-messages.min.js"></script>
         <script src="js/angular-material/angular-material.min.js"></script>
         <script src="js/app.js"></script>
+        <script src="js/ngDroplet.js"></script>
         <script src="js/directives/fileread.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/localforage/1.4.3/localforage.min.js"></script>
         <script src="js/localForage/angular-localForage.js"></script>
