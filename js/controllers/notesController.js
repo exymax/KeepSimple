@@ -18,19 +18,20 @@ app.controller("notesController", function($scope, $mdDialog, $timeout, dataServ
     });
 
     $scope.$on('$dropletFileAdded', function() {
-        alert("image added1");
-        //$scope.notes.push({});
+        /*$scope.notes.push({
+
+        });*/
         reloadMasonry();
     })
 
     $scope.wrapperJQ.masonry({
-        itemSelector: '.masonry-brick', 
-        percentPosition: true, 
+        itemSelector: '.masonry-brick',
+        percentPosition: true,
         gutter: 15,
     }).sortable({
 
-        start: function(event, ui) {            
-            console.log(ui); 
+        start: function(event, ui) {
+            console.log(ui);
             ui.item.removeClass('masonry-brick');
             ui.item.parent().masonry('reloadItems').masonry();
         },
@@ -39,7 +40,7 @@ app.controller("notesController", function($scope, $mdDialog, $timeout, dataServ
             ui.item.parent().masonry('reloadItems').masonry();
         },
 
-        stop: function(event, ui) { 
+        stop: function(event, ui) {
             ui.item.addClass('masonry-brick');
             ui.item.parent().masonry('reloadItems').masonry();
         }
@@ -70,10 +71,9 @@ app.controller("notesController", function($scope, $mdDialog, $timeout, dataServ
             }
             else {
                 $scope.notes.unshift({
-                    "isImage": 0,
-                    "url": null,
-                    "name": $scope.inProgress.name,
-                    "content": $scope.inProgress.content
+                    imageUrl: 0,
+                    name: $scope.inProgress.name,
+                    content: $scope.inProgress.content
                 });
             }
 
