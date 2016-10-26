@@ -13,11 +13,13 @@ app.controller("notesController", function($scope, $mdDialog, $timeout, dataServ
     $scope.uploadedImages = [];
     //$scope.interface = null;
 
-    $scope.colors = ['#1abc9c', '#3498db', '#f1c40f', '#e74c3c'];
+    $scope.colors = ['#1abc9c', '#3498db', '#f1c40f', '#e74c3c', '#fff'];
 
     $scope.$on('$dropletReady', function() {
         $scope.interface.allowedExtensions(['png', 'jpg', 'bmp', 'gif']);
     });
+
+    //$scope.$on('$drag');
 
     $scope.$on('$dropletFileAdded', function() {
         /*$scope.notes.push({
@@ -26,28 +28,16 @@ app.controller("notesController", function($scope, $mdDialog, $timeout, dataServ
         reloadMasonry();
     });
 
-    //$scope.wrapperJQ.draggable({ scroll: false });
-    /*$scope.wrapperJQ.masonry({
-        itemSelector: '.masonry-brick',
+    $(".note .note-actions .delete").on("click", function() {
+        alert(1);
+        $(this).parent().parent().fadeOut();
+    });
+
+    $scope.wrapperJQ.masonry({
+        itemSelector: '.note',
         percentPosition: true,
         gutter: 15,
-    }).sortable({
-
-        start: function(event, ui) {
-            console.log(ui);
-            ui.item.removeClass('masonry-brick');
-            ui.item.parent().masonry('reloadItems').masonry();
-        },
-
-        change:function(event, ui) {
-            ui.item.parent().masonry('reloadItems').masonry();
-        },
-
-        stop: function(event, ui) {
-            ui.item.addClass('masonry-brick');
-            ui.item.parent().masonry('reloadItems').masonry();
-        }
-    });*/
+    });
     /*$scope.$watch('uploadedImages', function(newValue, oldValue, scope) {
         scope.uploadedImages = oldValue.concat(newValue);
         if(scope.uploadedImages.length>4)
@@ -98,9 +88,9 @@ app.controller("notesController", function($scope, $mdDialog, $timeout, dataServ
     $scope.deleteNote = function(note) {
         let index = $scope.notes.indexOf(note);
         if(index != -1) {
-            //setTimeout(function() {
+            setTimeout(function() {
                 $scope.notes.splice(note.index, 1);
-            //}, 300);
+            }, 300);
         }
         else alert("No note with id "+note.id);
     }

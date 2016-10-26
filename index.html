@@ -74,10 +74,10 @@
                 <droplet id="images-drop-zone" ng-model="interface"></droplet>
                 <div dnd-draggable="true" dnd-resizable class="ui-state-default md-whiteframe-2dp note transition-linear rounded row" ng-style="{'background': note.background}" ng-repeat="note in notes" ng-click="showInfo(note, $event)" prepend="true">
                     <div class="note-actions col s12">
-                        <div class="delete transition" ng-click="deleteNote(note)"></div>
+                        <div class="delete transition" ng-click="$event.stopPropagation(); deleteNote(note)"></div>
                         <!--<div class="change-color transition" ng-click="note.colorChangerActive = !note.colorChangerActive"></div>-->
                         <div class="color-changer">
-                            <div ng-repeat="color in colors" class="color-var transition" ng-click="note.background = color" ng-style="{ 'background': color }"></div>
+                            <div ng-repeat="color in colors" class="color-var transition" ng-click="$event.stopPropagation(); note.background = color" ng-style="{ 'background': color }"></div>
                         </div>
                     </div>
                     <h3 ng-bind="note.name"></h3>
@@ -96,7 +96,7 @@
         </div>
         <script src="js/components/jquery.js"></script>
         <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-        <!--<script src="js/masonry.pkgd.min.js"></script>-->
+        <script src="js/masonry.pkgd.min.js"></script>
         <script src="js/angular.js"></script>
         <script src="js/angular-dnd.min.js"></script>
         <!--<script src="js/components/jquery.bridget.js"></script>
