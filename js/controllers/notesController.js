@@ -1,8 +1,8 @@
 app.controller("notesController", function($scope, $mdDialog, $timeout, dataService, noteService) {
 
     $scope.notes = dataService.getData();
-    $scope.numeration = $scope.notes.length;
-    $scope.numeration++;
+    $scope.numeration = $scope.notes.length-1;
+    //$scope.numeration = 0;
     $scope.currentInProgress = "";
     $scope.wrapper = document.getElementById("layout-wrapper");
     $scope.wrapperJQ = $("#layout-wrapper"),
@@ -13,6 +13,8 @@ app.controller("notesController", function($scope, $mdDialog, $timeout, dataServ
     $scope.uploadedImages = [];
     //$scope.interface = null;
 
+    $scope.colors = ['#1abc9c', '#3498db', '#f1c40f', '#e74c3c'];
+
     $scope.$on('$dropletReady', function() {
         $scope.interface.allowedExtensions(['png', 'jpg', 'bmp', 'gif']);
     });
@@ -22,9 +24,10 @@ app.controller("notesController", function($scope, $mdDialog, $timeout, dataServ
 
         });*/
         reloadMasonry();
-    })
+    });
 
-    $scope.wrapperJQ.masonry({
+    //$scope.wrapperJQ.draggable({ scroll: false });
+    /*$scope.wrapperJQ.masonry({
         itemSelector: '.masonry-brick',
         percentPosition: true,
         gutter: 15,
@@ -44,7 +47,7 @@ app.controller("notesController", function($scope, $mdDialog, $timeout, dataServ
             ui.item.addClass('masonry-brick');
             ui.item.parent().masonry('reloadItems').masonry();
         }
-    });
+    });*/
     /*$scope.$watch('uploadedImages', function(newValue, oldValue, scope) {
         scope.uploadedImages = oldValue.concat(newValue);
         if(scope.uploadedImages.length>4)
@@ -70,18 +73,38 @@ app.controller("notesController", function($scope, $mdDialog, $timeout, dataServ
                 alert("Заполните поля названия и контента");
             }
             else {
-                $scope.notes.unshift({
-                    imageUrl: 0,
-                    name: $scope.inProgress.name,
-                    content: $scope.inProgress.content
-                });
+                $scope.notes.unshift(noteService.getNoteModel($scope.inProgress.name, $scope.inProgress.content));
             }
+
+            /*
+            {
+
+                imageUrl: 0,
+                name: $scope.inProgress.name,
+                content: $scope.inProgress.content
+                //id: $scope.numeration
+            }*/
 
             $scope.inProgress.name = "";
             $scope.inProgress.content = "";
             $scope.numeration++;
             reloadMasonry();
     }
+
+    $scope.toggleColorChanger = function(note) {
+        note.colorChangerActive = true;
+    }
+
+    $scope.deleteNote = function(note) {
+        let index = $scope.notes.indexOf(note);
+        if(index != -1) {
+            //setTimeout(function() {
+                $scope.notes.splice(note.index, 1);
+            //}, 300);
+        }
+        else alert("No note with id "+note.id);
+    }
+
     $scope.showInfo = function(note, ev) {
         $mdDialog.show({
             controller: DialogController,
@@ -114,9 +137,7 @@ app.controller("notesController", function($scope, $mdDialog, $timeout, dataServ
     }
 
     function reloadMasonry() {
-        return $timeout(function() {
-            $("#layout-wrapper").masonry('reloadItems').masonry();
-        });
+        $(".note").draggable();
     }
 
 });

@@ -1,1 +1,1 @@
-let app = angular.module("keepSimpleApp", ["ngMaterial", "LocalForageModule", "ngDroplet"]);
+let app = angular.module("keepSimpleApp", ["ngMaterial", "dnd"]);

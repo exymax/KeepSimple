@@ -19,6 +19,10 @@ body {
     transition: all .2s ease-in-out;
 }
 
+.transition-linear {
+    transition: all .08s linear;
+}
+
 .rounded {
     border-radius:3px;
 }
@@ -166,16 +170,63 @@ body {
 }
 
 .note {
+    position:relative;
     cursor:pointer;
     width:calc(25% - 46.25px);
     padding:10px;
     margin-bottom: 15px;
-    background:#fff;
 }
 
 .note:hover {
     box-shadow: 0 3px 5px -1px rgba(0,0,0,.2),0 5px 8px 0 rgba(0,0,0,.14),0 1px 14px 0 rgba(0,0,0,.12);
     transform: translateY(-5px);
+}
+
+.note .note-actions {
+    position:absolute;
+    width:calc(100% - 20px);
+}
+
+.note .note-actions .delete {
+    opacity:.8;
+    float:right;
+    background: url("../images/close.png");
+    background-position:50% 50%;
+    cursor:pointer;
+    width:20px;
+    height:20px;
+}
+
+.note .note-actions .delete:hover {
+    transform:scale(1.14);
+}
+
+.note .note-actions .change-color {
+    opacity:.8;
+    float:right;
+    background:url("../images/palette.png");
+    cursor:pointer;
+    width:20px;
+    height:20px;
+    margin-right:10px;
+}
+
+.note .note-actions .color-changer {
+    float:left;
+}
+
+.note .note-actions .color-changer .color-var {
+    cursor:pointer;
+    display:inline-block;
+    width:15px;
+    height:15px;
+    margin:0 16px 0 0;
+    border-radius:100%;
+    border:2px solid rgba(0, 0, 0, .3);
+}
+
+.note .note-actions .color-changer .color-var:hover {
+    transform:scale(1.2);
 }
 
 .note h3 {
@@ -191,10 +242,22 @@ body {
     width:100%;
     background-repeat: no-repeat;
     background-size:cover;
-    /*width:100%;
-    height:100%;
-    background-repeat: none;
-    background-size:100%;*/
+}
+
+.hide-note {
+    transform:scale(0);
+}
+
+.angular-dnd-resizable-handle-se {
+    position:absolute;
+    bottom:0;
+    right:0;
+    cursor:se-resize;
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: 0 0 15px 15px;
+    border-color: transparent transparent rgba(10, 10, 10, .2) transparent;
 }
 
 #backdrops.disabled {

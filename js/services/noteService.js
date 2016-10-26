@@ -25,18 +25,22 @@ app.service("noteService", function(dataService) {
         return dataService.getData();
     }
 
-    this.getNoteModel = function() {
+    this.getNoteModel = function(name, content, image, imageUrl) {
         return {
-            name: "",
-            content: ""
-        }
+            isImaged: !!image,
+            imageUrl: imageUrl,
+            background: '#fff',
+            colorChangerActive: false,
+            name: name,
+            content: content
+        };
     }
 
     this.getImageNoteModel = function() {
         return {
             isImage: true,
             url: ""
-        }
+        };
     }
 
     this.saveToStorage = function(note) {
