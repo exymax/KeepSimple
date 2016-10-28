@@ -169,8 +169,16 @@ body {
     height:100%;
 }
 
+.removing {
+    transform:scale(0);
+}
+
+.note.note-image {
+    background:#fff;
+}
+
 .note {
-    position:relative;
+    position:absolute;
     cursor:pointer;
     width:calc(25% - 46.25px);
     padding:10px;
@@ -193,22 +201,28 @@ body {
     background: url("../images/close.png");
     background-position:50% 50%;
     cursor:pointer;
+    border-radius:20px;
     width:20px;
     height:20px;
 }
 
 .note .note-actions .delete:hover {
-    transform:scale(1.14);
+    transform:scale(1.2);
 }
 
-.note .note-actions .change-color {
+.note .note-actions .edit-note {
     opacity:.8;
     float:right;
-    background:url("../images/palette.png");
+    background:url("../images/pencil.png");
+    background-size:95%;
     cursor:pointer;
     width:20px;
     height:20px;
     margin-right:10px;
+}
+
+.note .note-actions .edit-note:hover {
+    transform:scale(1.2);
 }
 
 .note .note-actions .color-changer {
@@ -230,6 +244,7 @@ body {
 }
 
 .note h3 {
+    padding-top:25px;
     color: #151515;
 }
 
@@ -263,6 +278,16 @@ body {
 #backdrops.disabled {
     opacity:0;
     visibility:hidden;
+}
+
+#whoops {
+    position:absolute;
+    top:55%;
+    left:50%;
+    transform:translate(-50%, -50%);
+    font-size:30px;
+    color:rgb(120, 120, 120);
+    text-align: center;
 }
 
 #warnings {

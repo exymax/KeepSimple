@@ -1,5 +1,6 @@
 app.service("noteService", function(dataService) {
     let curNote = null;
+
     this.openEditor = function(note, edit) {
         curNote = note;
         edit.name  = note.name;
@@ -25,15 +26,21 @@ app.service("noteService", function(dataService) {
         return dataService.getData();
     }
 
-    this.getNoteModel = function(name, content, image, imageUrl) {
-        return {
-            isImaged: !!image,
-            imageUrl: imageUrl,
-            background: '#fff',
-            colorChangerActive: false,
-            name: name,
-            content: content
-        };
+
+    this.getNoteModel = function(name, content, pageParams, image, imageUrl) {
+        let note = {
+                isImaged: !!image,
+                imageUrl: imageUrl,
+                background: '#fff',
+                name: name,
+                content: content
+            };
+        if(pageParams) {
+            let position = getPosition(pageParams);
+            note.x = position.x;
+            note.y = position.y;
+        }
+        return note;
     }
 
     this.getImageNoteModel = function() {
@@ -45,6 +52,22 @@ app.service("noteService", function(dataService) {
 
     this.saveToStorage = function(note) {
 
+    }
+
+    function getPosition(pageParams) {
+        //alert(pageParams);
+        let x = getRnd(0, pageParams.width-200),
+            y = getRnd(0, pageParams.height);
+        return {
+            x: x,
+            y: y
+        }
+    }
+
+    function getRnd(min, max) {
+        let rand = min + Math.random() * (max + 1 - min);
+        rand = Math.floor(rand);
+        return rand;
     }
 
 });

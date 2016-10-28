@@ -1,17 +1,21 @@
 app.controller("notesController", function($scope, $mdDialog, $timeout, dataService, noteService) {
 
-    $scope.notes = dataService.getData();
+    $scope.pageParams = {
+        width: $("body").width(),
+        height: $("body").height()
+    };
+
+    $scope.notes = noteService.getNotes();
     $scope.numeration = $scope.notes.length-1;
     //$scope.numeration = 0;
     $scope.currentInProgress = "";
     $scope.wrapper = document.getElementById("layout-wrapper");
     $scope.wrapperJQ = $("#layout-wrapper"),
-    $scope.notesMasonry = null;
     $scope.creatorIsActive = false;
     $scope.edit = noteService.getNoteModel();
     $scope.inProgress = noteService.getNoteModel();
     $scope.uploadedImages = [];
-    //$scope.interface = null;
+    //console.log(pageParams);
 
     $scope.colors = ['#1abc9c', '#3498db', '#f1c40f', '#e74c3c', '#fff'];
 
@@ -19,7 +23,6 @@ app.controller("notesController", function($scope, $mdDialog, $timeout, dataServ
         $scope.interface.allowedExtensions(['png', 'jpg', 'bmp', 'gif']);
     });
 
-    //$scope.$on('$drag');
 
     $scope.$on('$dropletFileAdded', function() {
         /*$scope.notes.push({
@@ -28,82 +31,70 @@ app.controller("notesController", function($scope, $mdDialog, $timeout, dataServ
         reloadMasonry();
     });
 
-    $(".note .note-actions .delete").on("click", function() {
-        alert(1);
-        $(this).parent().parent().fadeOut();
-    });
-
-    $scope.wrapperJQ.masonry({
+    /*$scope.wrapperJQ.masonry({
         itemSelector: '.note',
         percentPosition: true,
         gutter: 15,
-    });
-    /*$scope.$watch('uploadedImages', function(newValue, oldValue, scope) {
-        scope.uploadedImages = oldValue.concat(newValue);
-        if(scope.uploadedImages.length>4)
-            scope.uploadedImages = scope.uploadedImages.slice(-4, scope.uploadedImages.length);
     });*/
+
+
     $scope.logFiles = function(files) {
         $scope.uploadedImages = files;
     }
+
     $scope.selectImages = function() {
         angular.element(document.querySelector("#note-images-upload")).click();
     }
+
     $scope.keypressHandler = function(event) {
         if(event.which === 13)
             if($scope.creatorIsActive) $scope.toggleCreator();
     }
+
     $scope.toggleCreator = function() {
         $scope.creatorIsActive = !$scope.creatorIsActive;
         $scope.uploadedImages = [];
         angular.element(document.querySelector("#backdrops")).toggleClass("disabled");
     }
+
     $scope.addNewNote = function() {
             if($scope.inProgress.name === "" || $scope.inProgress.content === "") {
                 alert("Заполните поля названия и контента");
             }
             else {
-                $scope.notes.unshift(noteService.getNoteModel($scope.inProgress.name, $scope.inProgress.content));
+                //alert($scope.pageParams);
+                $scope.notes.unshift(noteService.getNoteModel($scope.inProgress.name, $scope.inProgress.content, $scope.pageParams));
             }
-
-            /*
-            {
-
-                imageUrl: 0,
-                name: $scope.inProgress.name,
-                content: $scope.inProgress.content
-                //id: $scope.numeration
-            }*/
-
             $scope.inProgress.name = "";
             $scope.inProgress.content = "";
             $scope.numeration++;
             reloadMasonry();
     }
 
-    $scope.toggleColorChanger = function(note) {
-        note.colorChangerActive = true;
-    }
-
     $scope.deleteNote = function(note) {
         let index = $scope.notes.indexOf(note);
         if(index != -1) {
-            setTimeout(function() {
-                $scope.notes.splice(note.index, 1);
-            }, 300);
+                $scope.notes.splice(index, 1);
+                $scope.numeration--;
         }
         else alert("No note with id "+note.id);
     }
 
+    $scope.toggleColorChanger = function(note) {
+        note.colorChangerActive = true;
+    }
+
     $scope.showInfo = function(note, ev) {
-        $mdDialog.show({
-            controller: DialogController,
-            contentElement: "#dialog-container",
-            targetEvent: ev,
-            parent: angular.element(document.getElementById("notes-wrapper")),
-            clickOutsideToClose: true
-        });
-        noteService.openEditor(note, $scope.edit);
+        if(!$scope.dragging) {
+            $mdDialog.show({
+                controller: DialogController,
+                contentElement: "#dialog-container",
+                targetEvent: ev,
+                parent: angular.element(document.getElementById("notes-wrapper")),
+                clickOutsideToClose: true
+            });
+            noteService.openEditor(note, $scope.edit);
+        }
     }
     $scope.hideInfo = function() {
         $mdDialog.hide();
@@ -126,8 +117,14 @@ app.controller("notesController", function($scope, $mdDialog, $timeout, dataServ
         };
     }
 
+    function updatePageParams() {
+        $scope.pageParams.width = $("body").width();
+        $scope.pageParams.height = $("body").height();
+    }
+
     function reloadMasonry() {
-        $(".note").draggable();
+        //$("#layout-wrapper").masonry("reloadItems").masonry();
+        updatePageParams();
     }
 
 });
